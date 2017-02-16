@@ -12,7 +12,7 @@
 hs_err_pid*
 /.settings/
 /target/
-/logging.log
-/.classpath
-/.factorypath
-/.project
+logging.log
+.classpath
+.factorypath
+.project
