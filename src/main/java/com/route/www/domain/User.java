@@ -1,23 +1,29 @@
 package com.route.www.domain;
+import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.domain.Persistable;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.route.www.common.Role;
 
-@Entity
-public class User implements Persistable<String> {
+@Document
+public class User implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String userUUID;
 
+	@Id
+	@JsonSerialize(using = ToStringSerializer.class)
+	private ObjectId id;
+	
+	@TextIndexed
 	private String userName;
 	
 	private int sex;
@@ -26,11 +32,11 @@ public class User implements Persistable<String> {
 	
 	private Role role;
 	
-	public String getUserUUID() {
-		return userUUID;
+	public ObjectId getId() {
+		return id;
 	}
-	public void setUserUUID(String userUUID) {
-		this.userUUID = userUUID;
+	public void setId(ObjectId id) {
+		this.id = id;
 	}
 	public String getUserName() {
 		return userName;
@@ -55,13 +61,5 @@ public class User implements Persistable<String> {
 	}
 	public void setRole(Role role) {
 		this.role = role;
-	}
-	@Override
-	public String getId() {
-		return userUUID;
-	}
-	@Override
-	public boolean isNew() {
-		return this.userUUID == null;
 	}
 }

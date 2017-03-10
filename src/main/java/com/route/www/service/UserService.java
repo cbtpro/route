@@ -2,16 +2,27 @@ package com.route.www.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.route.www.domain.User;
+import com.route.www.repository.UserRepository;
 
-@Repository
-public interface UserService {
+@Service
+public class UserService {
 
-	void save(User user);
+	@Autowired
+	private UserRepository userRepository;
 	
-	User findByUserName(String userName);
+	public void save(User user) {
+		userRepository.save(user);
+	}
 	
-	List<User> findAll();
+	public User findByUserName(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+	
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 }
