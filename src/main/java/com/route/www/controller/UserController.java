@@ -1,6 +1,8 @@
 package com.route.www.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,14 +23,23 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/save")
-	public User save() {
-		User user = new User();
-		user.setUserName("陈碧滔");
-		user.setSex(1);
-		user.setRole(Role.PARTICIPANT);
-		user.setTel("18916163020");
-		userService.save(user);
-		return user;
+	public <T> Map<String, T> save() {
+		Map<String, T> resp = new HashMap<>();
+		User returnUser = null;
+		User newUser = new User();
+		newUser.setUserName("陈碧滔");
+		newUser.setSex(1);
+		newUser.setRole(Role.PARTICIPANT);
+		newUser.setTel("18916163020");
+		User u = userService.findByUserName(newUser.getUserName());
+		if(u == null) {
+			returnUser = userService.save(newUser);
+			resp.put("user", (T) returnUser);
+			resp.put("code", (T) new Integer(0));
+		} else {
+			resp.put("code", (T) new Integer(1));
+		}
+		return resp;
 	}
 
 	@GetMapping("/findAll")

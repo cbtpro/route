@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.route.www.common.Role;
 import com.route.www.domain.User;
 import com.route.www.repository.UserRepository;
 
@@ -14,8 +15,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void save(User user) {
-		userRepository.save(user);
+	public User save(User user) {
+		return userRepository.save(user);
 	}
 	
 	public User findByUserName(String userName) {
