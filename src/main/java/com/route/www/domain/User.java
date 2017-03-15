@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.route.www.common.Role;
+import com.route.www.util.security.BCrypt;
 
 @Document
 public class User implements Serializable {
@@ -24,7 +25,11 @@ public class User implements Serializable {
 	private ObjectId id;
 	
 	@TextIndexed
-	private String userName;
+	private String username;
+	
+	private String password;
+	
+	private String realName;
 	
 	private int sex;
 	
@@ -38,11 +43,23 @@ public class User implements Serializable {
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public int getSex() {
 		return sex;
@@ -56,10 +73,14 @@ public class User implements Serializable {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public Role getRole() {
-		return role;
+	public String getRole() {
+		return role.toString();
 	}
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	@Override
+	public String toString() {
+		return String.format("User[id=%s, username='%s']", id, username);
 	}
 }

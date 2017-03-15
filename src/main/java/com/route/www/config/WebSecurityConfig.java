@@ -7,21 +7,27 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.route.www.service.UserDetailsServiceImpl;
+import com.route.www.util.security.BCrypt;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "home").permitAll()
+		http.authorizeRequests().antMatchers("/", "/home", "/signup", "/api/user/registration", "/api/user/login").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().loginPage("/login").permitAll().and()
 		.logout().permitAll();
 	}
 	
-	@Autowired
-	private void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);  //.passwordEncoder(BCrypt.passwordEncoder)
 	}
 }
