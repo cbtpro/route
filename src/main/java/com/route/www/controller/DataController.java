@@ -11,7 +11,7 @@ public class DataController {
 
 	@RequestMapping(value = "dataSet", method = RequestMethod.GET)
 	public int[] dataSet() {
-		int[] data = new int[10];
+		int[] data = new int[12];
 		for (int i = 0; i < data.length; i++) {
 			int randomNumber = (int) Math.floor(Math.random() * 30);
 			data[i] = randomNumber;

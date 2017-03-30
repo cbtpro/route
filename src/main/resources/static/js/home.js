@@ -1,11 +1,14 @@
-var promise = new Promise((resolve, reject)=>{
-	d3.json('/api/data/dataSet',function(json) {
-		resolve(json);
+function renderBar() {
+	var promise = new Promise((resolve, reject)=>{
+		d3.json('/api/data/dataSet',function(json) {
+			resolve(json);
+		});
 	});
-});
-promise.then(data=>{
-	barChart(data);
-});
+	promise.then(data=>{
+		barChart(data);
+	});
+}
+renderBar();
 function renderScatter() {
 	var scatterPromise = new Promise((resolve, reject)=>{
 		d3.json('/api/data/scatterDataSet', json=>{
@@ -19,6 +22,7 @@ function renderScatter() {
 renderScatter();
 d3.select('p.updateChart')
 .on('click', ()=>{
+	renderBar();
 	renderScatter();
 });
 function draw(dataset) {
@@ -85,7 +89,7 @@ function scatterChart(dataSet) {
 		})
 		.attr('r', d=>{
 			return rScale(d[1]);
-		});;
+		});
 	} else {
 		
 		//生成横轴和纵轴
@@ -118,6 +122,7 @@ function scatterChart(dataSet) {
 		.call(yAxis);
 	}
 }
+var barSvg;
 function barChart(dataSet) {
 	//生成比例尺
 	var xScale = d3.scaleLinear()
@@ -140,54 +145,103 @@ function barChart(dataSet) {
 	var yAxis = d3.axisLeft(yScale);
 	
 	var factor = multipleFactor(dataSet);
-	var svg = d3.select('body')
-	.append('svg')
-	.attr('width', w)
-	.attr('height', h);
-	var circles = svg.selectAll('rect')
-	.data(dataSet)
-	.enter()
-	.append('rect');
+	if(!d3.select('#barChart').empty()) {
+		barSvg.selectAll('rect')
+		.data(dataSet)
+		.transition().duration(1000)
+		.attr('x', (d, i)=>{
+			//return xScale(i);
+			return ((w - barPadding) / dataSet.length) * i + padding;
+		})
+		.attr('y', d=>{
+			return h - yScale(d) - padding;
+		})
+		.attr('width', (w - barPadding*2 - padding*2) / dataSet.length)
+		.attr('height', d=>{
+			return yScale(d);
+		});
+	} else {
+		barSvg = d3.select('#dataView')
+		.append('svg')
+		.attr('id', 'barChart')
+		.attr('width', w)
+		.attr('height', h);
+		var circles = barSvg.selectAll('rect')
+		.data(dataSet)
+		.enter()
+		.append('rect');
+		
+		circles.attr('x', (d, i)=>{
+			//return xScale(i);
+			return ((w - barPadding) / dataSet.length) * i + padding;
+		})
+		.attr('y', d=>{
+			return h - yScale(d) - padding;
+		})
+		.attr('width', (w - barPadding*2 - padding*2) / dataSet.length)
+		.attr('height', d=>{
+			return yScale(d);
+		})
+		.attr('fill', (d, i)=>{
+			return colors[i];
+		})
+		.attr('stroke', (d, i)=>{
+			return borderColor[i];
+		});
+		var text = barSvg.selectAll('text')
+		.data(dataSet)
+		.enter()
+		.append('text');
+		text.text(d=>{
+			return d;
+		})
+		.attr('x', (d, i)=>{
+			return i * (w / dataSet.length) + (w / dataSet.length - barPadding) / 2;
+		})
+		.attr('y', d=>{
+			return h - yScale(d) + 11;
+		})
+		.attr('font-family', 'sans-serif')
+		.attr('font-size', '11px')
+		.attr('fill', 'white')
+		.attr('text-anchor', 'middle');
 	
-	circles.attr('x', (d, i)=>{
-		return xScale(d);
-	})
-	.attr('y', d=>{
-		return yScale(d);
-	})
-	.attr('width', w / dataSet.length - barPadding)
-	.attr('height', d=>{
-		return yScale(d);
-	})
-	.attr('fill', d=>{
-		return 'rgb(0, 0, ' + (d * 10) + ')';
-	});
-	var text = svg.selectAll('text')
-	.data(dataSet)
-	.enter()
-	.append('text');
-	text.text(d=>{
-		return d;
-	})
-	.attr('x', (d, i)=>{
-		return i * (w / dataSet.length) + (w / dataSet.length - barPadding) / 2;
-	})
-	.attr('y', d=>{
-		return h - d * factor + 11;
-	})
-	.attr('font-family', 'sans-serif')
-	.attr('font-size', '11px')
-	.attr('fill', 'white')
-	.attr('text-anchor', 'middle');
-
-	svg.append('g')
-	.attr('transform', 'translate(0, ' + (h - padding) + ')')
-	.call(xAxis);
-	svg.append('g')
-	.attr('transform', 'translate(' + padding + ', 0)')
-	.call(yAxis);
+		barSvg.append('g')
+		.attr('transform', 'translate(0, ' + (h - padding) + ')')
+		.call(xAxis);
+		barSvg.append('g')
+		.attr('transform', 'translate(' + padding + ', 0)')
+		.call(yAxis);
+	}
 }
 function multipleFactor(array) {
 	var max = d3.max(array);
 	return h/max;
 }
+var colors = ['rgba(255, 99, 132, 0.2)',
+	'rgba(54, 162, 235, 0.2)',
+	'rgba(255, 206, 86, 0.2)',
+	'rgba(75, 192, 192, 0.2)',
+	'rgba(153, 102, 255, 0.2)',
+	'rgba(255, 159, 64, 0.2)',
+	'rgba(0, 204, 0, 0.2)',
+	'rgba(153, 102, 102, 0.2)',
+	'rgba(153, 153, 51, 0.2)',
+	'rgba(204, 0, 0, 0.2)',
+	'rgba(255, 255, 51, 0.2)',
+	'rgba(102, 102, 153, 0.2)'];
+var borderColor = [
+	'rgba(255,99,132,1)',
+	'rgba(54, 162, 235, 1)',
+	'rgba(255, 206, 86, 1)',
+	'rgba(75, 192, 192, 1)',
+	'rgba(153, 102, 255, 1)',
+	'rgba(255, 159, 64, 1)',
+	
+	'rgba(0, 204, 0, 1)',
+	'rgba(153, 102, 102, 1)',
+	'rgba(153, 153, 51, 1)',
+	'rgba(204, 0, 0, 1)',
+	'rgba(255, 255, 51, 1)',
+	'rgba(102, 102, 153, 1)'
+];
