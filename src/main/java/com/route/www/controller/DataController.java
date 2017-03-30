@@ -25,7 +25,7 @@ public class DataController {
 		for (int i = 0; i < data.length; i++) {
 			int[] array = data[i];
 			array[0] = i;
-			array[1] = (int) Math.floor(Math.random() * 100);
+			array[1] = (int) Math.floor(Math.random() * 1000);
 		}
 		return data;
 	}
