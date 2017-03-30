@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.lieqihezi</groupId>
     <artifactId>route</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>Archetype - route</name>
     <description>Shows how to use Spring Boot with WebMVC in the Java Container</description>
 	<parent>
