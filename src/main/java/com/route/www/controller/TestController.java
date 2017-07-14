@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
 @RestController
 public class TestController {
 
@@ -65,7 +64,7 @@ public class TestController {
 			//写入文件地址 
 		FileWriter writer;
 		try {
-			writer = new FileWriter("D:/a.txt");
+			writer = new FileWriter("/Users/peter/Documents/a.txt");
 			BufferedWriter buffer = new BufferedWriter(writer); 
 			StringBuilder sb = new StringBuilder(); 
 			//每次写入50kb 

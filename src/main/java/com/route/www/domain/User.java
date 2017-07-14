@@ -35,7 +35,7 @@ public class User implements Serializable {
 	
 	private String tel;
 	
-	private Role role;
+	private String role;
 	
 	public ObjectId getId() {
 		return id;
@@ -74,9 +74,9 @@ public class User implements Serializable {
 		this.tel = tel;
 	}
 	public String getRole() {
-		return role.toString();
+		return role;
 	}
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 	@Override

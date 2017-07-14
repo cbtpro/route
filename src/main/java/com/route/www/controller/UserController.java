@@ -36,7 +36,7 @@ public class UserController {
 		Map<String, T> resp = new HashMap<>();
 		User returnUser = null;
 		try {
-			newUser.setRole(Role.PARTICIPANT);
+			newUser.setRole("PARTICIPANT");
 			if (userService.findByUsername(newUser.getUsername()) != null) {
 				resp.put("message", (T) "User name already exists");
 				resp.put("code", (T) new Integer(1));
@@ -47,34 +47,33 @@ public class UserController {
 				resp.put("code", (T) new Integer(0));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			resp.put("message", (T) "registration error, Server error.");
 			LOG.debug("registration error: " + e.getMessage());
 			resp.put("code", (T) new Integer(-1));
 		}
 		return resp;
 	}
-	@GetMapping("/save")
-	public <T> Map<String, T> save() {
-		Map<String, T> resp = new HashMap<>();
-		User returnUser = null;
-		User newUser = new User();
-		newUser.setUsername("cbtpro");
-		newUser.setPassword("090712");
-		newUser.setRealName("陈碧滔");
-		newUser.setSex(1);
-		newUser.setRole(Role.PARTICIPANT);
-		newUser.setTel("18916163020");
-		User u = userService.findByUsername(newUser.getUsername());
-		if(u == null) {
-			returnUser = userService.save(newUser);
-			resp.put("user", (T) returnUser);
-			resp.put("code", (T) new Integer(0));
-		} else {
-			resp.put("code", (T) new Integer(1));
-		}
-		return resp;
-	}
+//	@GetMapping("/save")
+//	public <T> Map<String, T> save() {
+//		Map<String, T> resp = new HashMap<>();
+//		User returnUser = null;
+//		User newUser = new User();
+//		newUser.setUsername("cbtpro");
+//		newUser.setPassword("090712");
+//		newUser.setRealName("陈碧滔");
+//		newUser.setSex(1);
+//		newUser.setRole(Role.PARTICIPANT);
+//		newUser.setTel("18916163020");
+//		User u = userService.findByUsername(newUser.getUsername());
+//		if(u == null) {
+//			returnUser = userService.save(newUser);
+//			resp.put("user", (T) returnUser);
+//			resp.put("code", (T) new Integer(0));
+//		} else {
+//			resp.put("code", (T) new Integer(1));
+//		}
+//		return resp;
+//	}
 
 	@GetMapping("/findAll")
 	public List<User> findAll() {
