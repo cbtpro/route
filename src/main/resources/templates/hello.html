@@ -9,9 +9,9 @@
 		<h1>
 			Log as:
 			<span sec:authentication="name"></span>
-			Role :
+			<!-- Role :
 			<span sec:authorize="hasRole('PARTICIPANT')">PARTICIPANT</span>
-			<span sec:authorize="hasRole('INITIATOR')">INITIATOR</span>
+			<span sec:authorize="hasRole('INITIATOR')">INITIATOR</span> -->
 		</h1>
 		<a href="/user/profile"></a>
 		<form th:action="@{/logout}" method="post">

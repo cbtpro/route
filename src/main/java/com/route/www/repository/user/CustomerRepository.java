@@ -1,10 +1,10 @@
-package com.route.www.repository;
+package com.route.www.repository.user;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.route.www.domain.Customer;
+import com.route.www.domain.user.Customer;
 
 public interface CustomerRepository extends MongoRepository<Customer, String> {
 

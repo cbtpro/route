@@ -1,6 +1,5 @@
-package com.route.www.domain;
+package com.route.www.domain.user;
 import java.io.Serializable;
-
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -9,15 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.route.www.common.Role;
 import com.route.www.util.security.BCrypt;
 
 @Document
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id

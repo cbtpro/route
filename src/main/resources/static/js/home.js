@@ -2,6 +2,8 @@ function renderBar() {
 	var promise = new Promise((resolve, reject)=>{
 		d3.json('/api/data/dataSet',function(json) {
 			resolve(json);
+		}, error=> {
+			reject(error);
 		});
 	});
 	promise.then(data=>{
@@ -13,7 +15,9 @@ function renderScatter() {
 	var scatterPromise = new Promise((resolve, reject)=>{
 		d3.json('/api/data/scatterDataSet', json=>{
 			resolve(json);
-		})
+		}, error=> {
+			reject(error);
+		});
 	});
 	scatterPromise.then(data=>{
 		scatterChart(data);
@@ -67,12 +71,12 @@ function scatterChart(dataSet) {
 	.domain([0, d3.max(dataSet, d=>{ return d[0]})])
 	.range([padding, w - padding])
 	.nice();
-	
+
 	var yScale = d3.scaleLinear()
 	.domain([0, d3.max(dataSet, d=>{ return d[1]})])
 	.range([h - padding, padding])
 	.nice();
-	
+
 	var rScale = d3.scaleLinear()
 	.domain([0, d3.max(dataSet, d=>{ return d[1] })])
 	.range([2, 5])
@@ -205,7 +209,7 @@ function barChart(dataSet) {
 		.attr('font-size', '11px')
 		.attr('fill', 'white')
 		.attr('text-anchor', 'middle');
-	
+
 		barSvg.append('g')
 		.attr('transform', 'translate(0, ' + (h - padding) + ')')
 		.call(xAxis);
@@ -237,7 +241,7 @@ var borderColor = [
 	'rgba(75, 192, 192, 1)',
 	'rgba(153, 102, 255, 1)',
 	'rgba(255, 159, 64, 1)',
-	
+
 	'rgba(0, 204, 0, 1)',
 	'rgba(153, 102, 102, 1)',
 	'rgba(153, 153, 51, 1)',

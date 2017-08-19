@@ -1,4 +1,4 @@
-package com.route.www.service;
+package com.route.www.service.user.impl;
 
 import static java.util.Collections.singletonList;
 
@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.route.www.domain.User;
-import com.route.www.repository.UserRepository;
+import com.route.www.domain.user.User;
+import com.route.www.repository.user.UserRepository;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {

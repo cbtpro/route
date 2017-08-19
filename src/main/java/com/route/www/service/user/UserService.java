@@ -1,13 +1,12 @@
-package com.route.www.service;
+package com.route.www.service.user;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.route.www.common.Role;
-import com.route.www.domain.User;
-import com.route.www.repository.UserRepository;
+import com.route.www.domain.user.User;
+import com.route.www.repository.user.UserRepository;
 
 @Service
 public class UserService {

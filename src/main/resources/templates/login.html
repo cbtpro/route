@@ -17,4 +17,37 @@
 			<div><input type="submit" value="Sign in"/><input type="button" onclick="location.href='/signup'" value="Sign up" /></div>
 		</form>
 	</body>
+	<script src="webjars/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+
+	function uploadUser() {
+		var users = [
+						{
+							"username": "cc",
+							"password": "23432423",
+							"realName": "账上",
+							"sex": 0,
+							"tel": "123",
+							"role": "332134"
+						}
+					];
+		$.ajax({
+			url: '/api/user/uploadUsers?_csrf=' + $('[name="_csrf"]')[0].value,
+			method: 'put',
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+			},
+			data: {
+				"users": users
+			},
+			success: function(response) {
+				debugger;
+			},
+			error: function(error) {
+				debugger;
+			}
+		});
+	}
+	</script>
 </html>

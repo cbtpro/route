@@ -1,4 +1,4 @@
-package com.route.www.domain;
+package com.route.www.domain.user;
 
 import org.springframework.data.annotation.Id;
 

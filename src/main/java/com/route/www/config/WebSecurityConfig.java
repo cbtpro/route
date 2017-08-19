@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.route.www.service.UserDetailsServiceImpl;
+import com.route.www.service.user.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/", "/home", "/signup",
-				"/api/user/registration", "/api/user/login").permitAll()
+				"/api/user/registration", "/api/user/login", "/api/user/uploadUsers").permitAll()
 		.antMatchers("/api/data/**").permitAll()
 		.antMatchers("/js/**", "/webjars/**", "/img/**").permitAll()
 		.anyRequest().authenticated()
